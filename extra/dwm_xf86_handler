@@ -1,0 +1,47 @@
+#!/bin/sh
+
+ALSA_OUTPUT_MAIN=Master
+
+found=1
+case "$1" in
+	XF86XK_AudioNext) exec mpc -q next   ;;
+	XF86XK_AudioPrev) exec mpc -q prev   ;;
+	XF86XK_AudioPlay) exec mpc -q toggle ;;
+	XF86XK_AudioStop) exec mpc -q stop   ;;
+
+	XF86XK_AudioMute)        exec amixer -q -c0 set $ALSA_OUTPUT_MAIN toggle ;;
+	XF86XK_AudioLowerVolume) exec amixer -q -c0 set $ALSA_OUTPUT_MAIN 5%-    ;;
+	XF86XK_AudioRaiseVolume) exec amixer -q -c0 set $ALSA_OUTPUT_MAIN 5%+    ;;
+
+#	XF86XK_MonBrightnessUp | XF86XK_MonBrightnessDown)
+#		sudo backlight `echo $1 | sed 's#.*ness\([UD]\)#\L\1#'`
+#		;;
+
+	XF86XK_MonBrightnessUp)
+		sudo backlight high
+		;;
+
+	XF86XK_MonBrightnessDown)
+		sudo backlight low
+		;;
+
+	XF86XK_Launch1)
+		mpc toggle
+		;;
+
+	XF86XK_Sleep | XF86XK_Launch*)
+		:
+		;;
+
+	XF86XK_Display)  : ;;
+	XF86XK_Battery)  : ;;
+	XF86XK_WLAN)     : ;;
+
+	*)
+		found=0
+		;;
+esac #>& /dev/null
+
+if [ $found -eq 0 ]
+then echo "xf86_handler: unknown key: $1" >&2
+fi

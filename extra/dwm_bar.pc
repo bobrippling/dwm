@@ -1,0 +1,41 @@
+#!/bin/sh
+
+bar(){
+	if [ $# -ne 0 ]
+	then
+		xsetroot -name "$@"
+	else
+		xargs -0 xsetroot -name
+	fi
+}
+
+if [ $# -ne 0 ]
+then
+	bar "$@"
+	exit
+fi
+
+count=0
+while :
+do
+	{
+		amixer get Headphone | tail -1 | grep '\bon\b' > /dev/null && echo "[headphone]"
+		amixer get Front | tail -1 | grep '\bon\b' > /dev/null && echo "[front]"
+
+		vol.sh | dbar -w 12 -s =
+
+		echo "[`cut -f1-3 -d' ' /proc/loadavg`"
+		echo "][`date '+%a %b %Y/%m/%d %T'`]"
+	} | tr -d '\n' | bar
+
+
+	count=`expr $count + 1`
+	if [ $count -gt 240 ]
+	then
+		# 360 = (60 * 60 / 3) / 5, aka change every third of an hour
+		#       ^- seconds -^
+		randomwallpaper.sh
+		count=0
+	fi
+	sleep 2
+done
