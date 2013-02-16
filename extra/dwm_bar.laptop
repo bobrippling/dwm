@@ -1,0 +1,100 @@
+#!/bin/sh
+
+ethinfo(){
+	if=`ifconfig | awk '
+BEGIN {
+	cur_eth = ""
+}
+
+/^(eth|wlan)/ {
+	cur_eth = $1
+}
+
+/inet / {
+	if(length(cur_eth)){
+		line = substr($2, index($2, ":") + 1)
+		if(line != "127.0.0.1")
+			eth[cur_eth] = line
+		cur_eth = ""
+	}
+}
+
+END {
+	for (i in eth)
+		last = i
+
+	for (i in eth){
+		s = s " " i " " eth[i]
+		if (i != last)
+			s = s " | "
+	}
+
+	print s
+}'`
+
+	echo "$if"
+	if hciconfig | grep UP > /dev/null
+	then
+		if [ -n "$if" ]
+		then echo -n " | "
+		fi
+		echo -n 'hci0 '
+		hciconfig|grep Address|awk '{print $3}'
+	fi
+}
+
+last_batt=0
+
+while :
+do
+	mixer=`amixer -c 0 get Master | tail -1`
+	batt=`acpi | sed 's/.*[^0-9]\([0-9]\+\)%.*/\1/'`
+
+	if echo $mixer | grep off > /dev/null
+	then
+		vol='Mute'
+	else
+		vol=`echo $mixer | sed 's#.*\[\([0-9]\+%\)\].*#\1#g'`
+	fi
+
+	sens=`sensors`
+	if echo "$sens" | grep -F 'N/A'
+	then temp_cpu='??.?'
+	else temp_cpu=`echo "$sens" | grep -F C | sed 's|.*:[^0-9]\+\([0-9]\+\.[0-9]\).*|\1|'`
+	fi
+	temp_bat=`acpi -V | grep Thermal | head -1 | sed 's#.* \([0-9]\+\.[0-9]\+\).*#\1#'`
+	if acpi -V | grep on-line > /dev/null
+	then bat_ac="AC"
+	else
+		bat_ac="Bat"
+		if [ $batt -le 7 ]
+		then
+			last_batt=`expr $last_batt + 1`
+			if [ $last_batt -gt 10 ]
+			then
+				last_batt=0
+				if ! pgrep -f 'xmessage.*Low' > /dev/null
+				then xmessage >/dev/null 2>&1 "Low battery!" &
+				fi
+				if ifconfig | grep -F 192.168.5. > /dev/null
+				then host=ethbert
+				else host=egbert
+				fi
+				if ! pgrep -f "ssh $host DISPLAY" > /dev/null
+				then nohup ssh $host DISPLAY=:0 xmessage Jeth: low battery - $batt >/dev/null 2>&1 &
+				fi
+			fi
+		fi
+	fi
+
+	eth=`ethinfo | xargs echo -n` # | sed 's/ .*//'`
+	[ -n "$eth" ] && eth="[$eth]"
+
+	xsetroot -name "$(echo "$eth[Vol ${vol}][CPU $temp_cpu C][$bat_ac $temp_bat C, $batt%][`date '+%a %b %Y/%m/%d %T'`]")" || break
+	sleep 10
+done
+
+# initial:
+#coretemp-isa-0000
+#Adapter: ISA adapter
+#Core 0:          N/A  (crit = +100.0°C)
