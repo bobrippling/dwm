@@ -1,0 +1,31 @@
+diff --git a/dwm/dwm.c b/dwm/dwm.c
+index 9bcd659..02646e0 100644
+--- a/dwm/dwm.c
++++ b/dwm/dwm.c
+@@ -557,7 +557,7 @@ configure(Client *c) {
+ 	ce.y = c->y;
+ 	ce.width = c->w;
+ 	ce.height = c->h;
+-	ce.border_width = c->bw;
++	ce.border_width = c->isfloating ? c->bw : 0;
+ 	ce.above = None;
+ 	ce.override_redirect = False;
+ 	XSendEvent(dpy, c->win, False, StructureNotifyMask, (XEvent *)&ce);
+@@ -1187,7 +1187,7 @@ manage(Window w, XWindowAttributes *wa) {
+ 		           && (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? bh : c->mon->my);
+ 		c->bw = borderpx;
+ 	}
+-	wc.border_width = c->bw;
++	wc.border_width = c->isfloating ? c->bw : 0;
+ 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
+ 	XSetWindowBorder(dpy, w, dc.norm[ColBorder]);
+ 	configure(c); /* propagates border_width, if size doesn't change */
+@@ -1399,7 +1399,7 @@ resizeclient(Client *c, int x, int y, int w, int h) {
+ 	c->oldy = c->y; c->y = wc.y = y;
+ 	c->oldw = c->w; c->w = wc.width = w;
+ 	c->oldh = c->h; c->h = wc.height = h;
+-	wc.border_width = c->bw;
++	wc.border_width = c->isfloating ? c->bw : 0;
+ 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
+ 	configure(c);
+ 	XSync(dpy, False);
