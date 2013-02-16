@@ -21,7 +21,8 @@ options:
 ${OBJ}: config.h config.mk
 
 config.h:
-	@echo creating $@ from config.def.h
+	@echo create $@ from config.def.h\? interrupt to cancel
+	@read
 	@cp config.def.h $@
 
 dwm: ${OBJ}
