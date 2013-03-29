@@ -211,6 +211,9 @@ static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *);
+static void grid(Monitor *);
+static void col(Monitor *);
+static void bstack(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -287,6 +290,11 @@ struct Pertag {
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
+
+#include "layout/ntile.c"
+#include "layout/bstack.c"
+#include "layout/col.c"
+#include "layout/grid.c"
 
 /* function implementations */
 void

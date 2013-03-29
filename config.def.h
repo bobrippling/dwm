@@ -36,11 +36,24 @@ static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] 
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
+enum
+{
+ LAYOUT_I_tile,
+ LAYOUT_I_bstack,
+ LAYOUT_I_col,
+ LAYOUT_I_float,
+ LAYOUT_I_monocle,
+ LAYOUT_I_grid,
+};
+
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+	[LAYOUT_I_tile   ] = { "-|=",   tile    },
+	[LAYOUT_I_float  ] = { "###",   NULL    },    /* no layout function means floating behavior */
+	[LAYOUT_I_monocle] = { "[M]",   monocle },
+	[LAYOUT_I_grid   ] = { "HHH",   grid    },
+	[LAYOUT_I_bstack ] = { "-|-",   bstack  },
+	[LAYOUT_I_col    ] = { "||=",   col     },
 };
 
 /* key definitions */
@@ -73,10 +86,12 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[LAYOUT_I_tile]} },
+	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[LAYOUT_I_bstack]} },
+	{ MODKEY,                       XK_n,      setlayout,      {.v = &layouts[LAYOUT_I_col]} },
+	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[LAYOUT_I_float]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[LAYOUT_I_monocle]} },
+	{ MODKEY,                       XK_e,      setlayout,      {.v = &layouts[LAYOUT_I_grid]} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -100,8 +115,6 @@ static Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
