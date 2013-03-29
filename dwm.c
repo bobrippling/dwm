@@ -446,9 +446,13 @@ buttonpress(XEvent *e) {
 		focus(NULL);
 	}
 	if(ev->window == selmon->barwin) {
+		unsigned int occ = 0;
 		i = x = 0;
+		for(c = m->clients; c; c = c->next)
+			occ |= c->tags;
 		do
-			x += TEXTW(tags[i]);
+			if((m->tagset[m->seltags] & (1 << i)) || (occ & (1 << i)))
+				x += TEXTW(tags[i]);
 		while(ev->x >= x && ++i < LENGTH(tags));
 		if(i < LENGTH(tags)) {
 			click = ClkTagBar;
@@ -748,6 +752,11 @@ drawbar(Monitor *m) {
 	}
 	x = 0;
 	for(i = 0; i < LENGTH(tags); i++) {
+		const int has_clients = occ & 1 << i;
+
+		if(0 == (m->tagset[m->seltags] & (1 << i)) && !has_clients)
+			continue;
+
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, m->tagset[m->seltags] & 1 << i ? &scheme[SchemeSel] : &scheme[SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, tags[i], urg & 1 << i);
