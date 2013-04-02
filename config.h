@@ -16,7 +16,14 @@ static const unsigned int snap      = 16;       /* snap pixel */
 static const Bool showbar           = True;     /* False means no bar */
 static const Bool topbar            = True;     /* False means bottom bar */
 
-static const char *tags[]       = { "main", "term", "net", "misc1", "misc2" };
+static const char *tags[] = {
+#define TS(x) #x
+	TS(1), TS(2), TS(3), TS(4),
+	TS(5), TS(6), TS(7), TS(8),
+	TS(9), TS(a), TS(b), TS(c),
+	TS(d), TS(e), TS(f),
+#undef TS
+};
 
 #define TAG_ANY   0
 #define TAG_ALL   (~0)
@@ -56,13 +63,14 @@ static const Rule rules[] = {
 	{ NULL               , "Browser",        NULL,                   TAG_NET,        True,     -1 },
 	{ NULL               , "Navigator",      NULL,                   TAG_NET,        False,    -1 },
 	{ "Iron"             , NULL,             NULL,                   TAG_NET,        False,    -1 },
-	{ "Chromium"         , NULL,             NULL,                   TAG_NET,        False,    -1 },
+	{ NULL               , "chromium",       NULL,                   TAG_NET,        False,    -1 },
 	{ "surf"             , NULL,             NULL,                   TAG_ANY,        False,    -1 },
 	{ "Gvim"             , NULL,             NULL,                   TAG_ANY,        True,     -1 },
 
 	{ "Pidgin"           , NULL,             NULL,                   TAG_IM,         False,    -1 },
 	{ "Pidgin"           , NULL,             "File Transfers",       TAG_IM,         True,     -1 },
 	{ NULL               , "skype",          NULL,                   TAG_IM,         False,    -1 },
+	{ NULL               , "skype.real",     NULL,                   TAG_IM,         False,    -1 },
 
 	{ NULL               , NULL,             "Comm v2.0",            TAG_ANY,        True,     -1 },
 	{ NULL               , "gft",            NULL,                   TAG_ANY,        True,     -1 },
@@ -80,8 +88,8 @@ static const Rule rules[] = {
 	{ "Gpicview"         , NULL,             NULL,                   TAG_ANY,        True,     -1 },
 	{ "feh"              , NULL,             NULL,                   TAG_ANY,        True,     -1 },
 	{ "Gimp"             , NULL,             NULL,                   TAG_FLOAT,      True,     -1 },
-	{ "MPlayer"          , NULL,             NULL,                   TAG_ANY,        True,     -1 },
-	{ "mplayer2"         , NULL,             NULL,                   TAG_ANY,        True,     -1 },
+	{ "MPlayer"          , NULL,             NULL,                   TAG_ANY,        False,    -1 },
+	{ "mplayer2"         , NULL,             NULL,                   TAG_ANY,        False,    -1 },
 	{ "ROX-Dialog"       , NULL,             NULL,                   TAG_ANY,        True,     -1 },
 	{ "Vnc"              , NULL,             NULL,                   TAG_ANY,        True,     -1 },
 };
@@ -122,12 +130,11 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-f", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "urxvt", NULL };
 
 #include <X11/XF86keysym.h> /* makes XF86* keys work */
 static Key keys[] = {
-	{ 0,                   XK_Print,                  spawnq,         {.v = (char *[]){ "scrot",       "tmp/%Y-%m-%d_%H:%M:%S.png", NULL } } },
-	{ ShiftMask,           XK_Print,                  spawnq,         {.v = (char *[]){ "scrot", "-s", "tmp/%Y-%m-%d_%H:%M:%S.png", NULL } } },
+	{ 0,                   XK_Print,                  spawnq,         {.v = (char *[]){ "screenshot", NULL } } },
 
 #define XF86_KEY(k, cmd) \
 	{ 0,   k,    cmd,   {.v = (char *[]){ "dwm_xf86_handler", #k, NULL } } }
@@ -221,8 +228,9 @@ static Key keys[] = {
 	TAGKEYS(               XK_5,                      4)
 	TAGKEYS(               XK_6,                      5)
 	TAGKEYS(               XK_7,                      6)
-/*  TAGKEYS(               XK_8,                      7) */
-/*  TAGKEYS(               XK_9,                      8) */
+	TAGKEYS(               XK_8,                      7)
+	TAGKEYS(               XK_9,                      8)
+	/* other tags are accessible via left/right */
 };
 
 /* button definitions */
