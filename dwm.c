@@ -1082,6 +1082,10 @@ manage(Window w, XWindowAttributes *wa) {
 	c->h = c->oldh = wa->height;
 	c->oldbw = wa->border_width;
 
+	/* centre */
+	c->x = c->oldx = c->mon->wx + (c->mon->mw - c->w) / 2;
+	c->y = c->oldy = c->mon->wy + (c->mon->mh - c->h) / 2;
+
 	if(c->x + WIDTH(c) > c->mon->mx + c->mon->mw)
 		c->x = c->mon->mx + c->mon->mw - WIDTH(c);
 	if(c->y + HEIGHT(c) > c->mon->my + c->mon->mh)
