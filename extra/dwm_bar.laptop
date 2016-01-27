@@ -48,6 +48,27 @@ xtest(){
 	return $?
 }
 
+check_batt_level(){
+	if [ $batt -le 7 ]
+	then
+		last_batt=`expr $last_batt + 1`
+		if [ $last_batt -gt 10 ]
+		then
+			last_batt=0
+			if ! pgrep -f 'xmessage.*Low' > /dev/null
+			then xmessage >/dev/null 2>&1 "Low battery!" &
+			fi
+			if ifconfig | grep -F 192.168.5. > /dev/null
+			then host=ethbert
+			else host=egbert
+			fi
+			if ! pgrep -f "ssh $host DISPLAY" > /dev/null
+			then nohup ssh $host DISPLAY=:0 xmessage Jeth: low battery - $batt >/dev/null 2>&1 &
+			fi
+		fi
+	fi
+}
+
 last_batt=0
 
 while xtest
@@ -72,24 +93,7 @@ do
 	then bat_ac="AC"
 	else
 		bat_ac="Bat"
-		if [ $batt -le 7 ]
-		then
-			last_batt=`expr $last_batt + 1`
-			if [ $last_batt -gt 10 ]
-			then
-				last_batt=0
-				if ! pgrep -f 'xmessage.*Low' > /dev/null
-				then xmessage >/dev/null 2>&1 "Low battery!" &
-				fi
-				if ifconfig | grep -F 192.168.5. > /dev/null
-				then host=ethbert
-				else host=egbert
-				fi
-				if ! pgrep -f "ssh $host DISPLAY" > /dev/null
-				then nohup ssh $host DISPLAY=:0 xmessage Jeth: low battery - $batt >/dev/null 2>&1 &
-				fi
-			fi
-		fi
+		check_batt_level
 	fi
 
 	eth=`ethinfo | xargs echo -n` # | sed 's/ .*//'`
