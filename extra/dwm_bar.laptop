@@ -99,7 +99,7 @@ do
 	eth=`ethinfo | xargs echo -n` # | sed 's/ .*//'`
 	[ -n "$eth" ] && eth="[$eth]"
 
-	xsetroot -name "$(echo "$eth[Vol ${vol}][CPU $temp_cpu C][$bat_ac $temp_bat C, $batt%][`date '+%a %b %Y/%m/%d %T'`]")" || break
+	xsetroot -name "$eth[Vol ${vol}][CPU $temp_cpu C][$bat_ac $temp_bat C, $batt%][`date '+%a %b %Y/%m/%d %T'`]" || break
 	sleep 10
 done
 
