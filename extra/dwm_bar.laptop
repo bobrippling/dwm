@@ -83,7 +83,7 @@ do
 		vol=`echo $mixer | sed 's#.*\[\([0-9]\+%\)\].*#\1#g'`
 	fi
 
-	sens=`sensors`
+	sens=`sensors | grep 'Core 0'`
 	if echo "$sens" | grep -F 'N/A'
 	then temp_cpu='??.?'
 	else temp_cpu=`echo "$sens" | grep -F C | sed 's|.*:[^0-9]\+\([0-9]\+\.[0-9]\).*|\1|'`
