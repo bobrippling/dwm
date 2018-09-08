@@ -19,8 +19,6 @@ count=0
 while :
 do
 	{
-		mpc_status.pl | sed 's#^#[#; s#$#]#'
-
 		if amixer get Headphone | tail -1 | grep '\bon\b' > /dev/null
 		then echo "[H1]"
 		else echo "[H0]"
