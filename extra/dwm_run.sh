@@ -13,6 +13,7 @@ do
 	. "$dwmpath"/env
 	dwm
 	xtest || break
+	sleep 1
 done
 
 echo "$0: exit" >&2
