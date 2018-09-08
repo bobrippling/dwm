@@ -28,8 +28,7 @@ do
 
 		vol.sh | dbar -w 12 -s =
 
-		echo "[`awk '{print $1 " " $2 " " $3}' < /proc/loadavg` "
-		ps ax | awk '{print $3}' | grep R | sed 1d | wc -l
+		echo "[`cut -f1-3 -d' ' /proc/loadavg`"
 		echo "][`date '+%a %b %Y/%m/%d %T'`]"
 	} | tr -d '\n' | bar
 
