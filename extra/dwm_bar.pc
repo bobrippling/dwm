@@ -19,10 +19,8 @@ count=0
 while :
 do
 	{
-		if amixer get Headphone | tail -1 | grep '\bon\b' > /dev/null
-		then echo "[H1]"
-		else echo "[H0]"
-		fi
+		amixer get Headphone | tail -1 | grep '\bon\b' > /dev/null && echo "[headphone]"
+		amixer get Front | tail -1 | grep '\bon\b' > /dev/null && echo "[front]"
 
 		vol.sh | dbar -w 12 -s =
 
