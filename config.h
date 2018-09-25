@@ -46,12 +46,12 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 
 enum
 {
- LAYOUT_I_tile,
- LAYOUT_I_bstack,
- LAYOUT_I_col,
- LAYOUT_I_float,
- LAYOUT_I_monocle,
- LAYOUT_I_grid,
+	LAYOUT_I_tile,
+	LAYOUT_I_bstack,
+	LAYOUT_I_col,
+	LAYOUT_I_float,
+	LAYOUT_I_monocle,
+	LAYOUT_I_grid,
 };
 
 static const Layout layouts[] = {
