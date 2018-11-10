@@ -48,6 +48,10 @@ xtest(){
 	return $?
 }
 
+netusage(){
+	ss -tn | sed 1d | wc -l | tr -d ' 	'
+}
+
 check_batt_level(){
 	if [ $batt -le 7 ]
 	then
@@ -97,9 +101,9 @@ do
 	fi
 
 	eth=`ethinfo | xargs echo -n` # | sed 's/ .*//'`
-	[ -n "$eth" ] && eth="[$eth]"
+	[ -n "$eth" ] && eth="[$eth <$(netusage)>]"
 
-	xsetroot -name "$eth[Vol ${vol}][CPU $temp_cpu C][$bat_ac $temp_bat C, $batt%][`date '+%a %b %Y/%m/%d %T'`]" || break
+	xsetroot -name "$eth[Vol ${vol}][CPU $temp_cpu C][$bat_ac $temp_bat C, $batt%][`date '+%a %b %Y/%m/%d %H:%M'`]" || break
 	sleep 10
 done
 
