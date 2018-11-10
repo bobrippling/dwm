@@ -122,6 +122,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run_quick", "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, "-f", NULL };
 static const char *termcmd[]  = { "urxvt", NULL };
+static const char *termcmd2[] = { "st", NULL };
 
 #include <X11/XF86keysym.h> /* for XF86* keys */
 static Key keys[] = {
@@ -145,6 +146,7 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawnq,         {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawnq,         {.v = termcmd } },
+	{ MODKEY,                       XK_numbersign, spawnq,     {.v = termcmd2  } },
 
 	/* move, resize */
 	{ MODKEY,                       XK_s,      moveresize,     {.v = (int [4]){ 0, MOVE_RESIZE_STEP, 0, 0 }}},
