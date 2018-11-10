@@ -21,11 +21,11 @@ case "$1" in
 #		;;
 
 	XF86XK_MonBrightnessUp)
-		sudo backlight high
+		backlight up
 		;;
 
 	XF86XK_MonBrightnessDown)
-		sudo backlight low
+		backlight down
 		;;
 
 	XF86XK_Launch1)
