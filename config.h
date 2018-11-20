@@ -36,7 +36,9 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     iscentered     isfloating   monitor */
-	{ "URxvt",    NULL,       NULL,       0,            1,             0,           -1 },
+	{ "URxvt",     NULL,       NULL,       0,            1,             0,           -1 },
+	{ "Firefox-esr", NULL,       NULL,       1<<2,         1,             0,           -1 },
+	{ "Chromium",  NULL,       NULL,       1<<2,         1,             0,           -1 },
 };
 
 /* layout(s) */
