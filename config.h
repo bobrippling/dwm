@@ -4,6 +4,7 @@
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
+static const int transparentbar     = 0;        /* 1 means transparent bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 #define FONT "Terminus:pixelsize=12:antialias=true:autohint=true"
 static const char *fonts[]         = { FONT };

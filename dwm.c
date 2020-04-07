@@ -669,6 +669,7 @@ createmon(void)
 	m->mfact = mfact;
 	m->nmaster = nmaster;
 	m->showbar = showbar;
+	m->transparentbar = transparentbar;
 	m->topbar = topbar;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
@@ -685,6 +686,7 @@ createmon(void)
 		m->pertag->sellts[i] = m->sellt;
 
 		m->pertag->showbars[i] = m->showbar;
+		m->pertag->transparentbars[i] = m->transparentbar;
 	}
 
 	return m;
@@ -1761,7 +1763,7 @@ togglebar(const Arg *arg)
 void
 togglebartrans(const Arg *arg)
 {
-	selmon->transparentbar = !selmon->transparentbar;
+	selmon->transparentbar = selmon->pertag->transparentbars[selmon->pertag->curtag] = !selmon->transparentbar;
 	updatebarpos(selmon);
 	arrange(selmon);
 }
@@ -1806,6 +1808,9 @@ pertag_to_selmon(void)
 
 	if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
 		togglebar(NULL);
+
+	if (selmon->transparentbar != selmon->pertag->transparentbars[selmon->pertag->curtag])
+		togglebartrans(NULL);
 }
 
 void
