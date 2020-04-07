@@ -125,6 +125,7 @@ struct Monitor {
 	unsigned int tagset[2];
 	int showbar;
 	int topbar;
+	int transparentbar;
 	Client *clients;
 	Client *sel;
 	Client *stack;
@@ -216,6 +217,7 @@ static void grid(Monitor *);
 static void col(Monitor *);
 static void bstack(Monitor *);
 static void togglebar(const Arg *arg);
+static void togglebartrans(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
@@ -287,6 +289,7 @@ struct Pertag {
 	unsigned int sellts[LENGTH(tags) + 1]; /* selected layouts */
 	const Layout *ltidxs[LENGTH(tags) + 1][2]; /* matrix of tags and layouts indexes  */
 	int showbars[LENGTH(tags) + 1]; /* display bar for the current tag */
+	int transparentbars[LENGTH(tags) + 1]; /* transparent bar for the current tag */
 };
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
@@ -1756,6 +1759,14 @@ togglebar(const Arg *arg)
 }
 
 void
+togglebartrans(const Arg *arg)
+{
+	selmon->transparentbar = !selmon->transparentbar;
+	updatebarpos(selmon);
+	arrange(selmon);
+}
+
+void
 togglefloating(const Arg *arg)
 {
 	if (!selmon->sel)
@@ -1906,9 +1917,13 @@ updatebarpos(Monitor *m)
 	m->wy = m->my;
 	m->wh = m->mh;
 	if (m->showbar) {
-		m->wh -= bh;
-		m->by = m->topbar ? m->wy : m->wy + m->wh;
-		m->wy = m->topbar ? m->wy + bh : m->wy;
+		if (m->transparentbar) {
+			m->by = m->topbar ? m->wy : m->wy + m->wh;
+		} else {
+			m->wh -= bh;
+			m->by = m->topbar ? m->wy : m->wy + m->wh;
+			m->wy = m->topbar ? m->wy + bh : m->wy;
+		}
 	} else
 		m->by = -bh;
 }

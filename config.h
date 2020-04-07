@@ -122,6 +122,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_a,      moveresize,     {.v = (int [4]){ 0, 0, -MOVE_RESIZE_STEP, 0 }}},
 
 	{ MODKEY,                       XK_g,      togglebar,      {0} },
+	{ MODKEY|ShiftMask,             XK_g,      togglebartrans, {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_y,      incnmaster,     {.i = +1 } },
