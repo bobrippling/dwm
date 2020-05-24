@@ -6,7 +6,38 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int transparentbar     = 0;        /* 1 means transparent bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-#define FONT "Terminus:pixelsize=12:antialias=true:autohint=true"
+
+/* ### Programs
+ *
+ * - fc-list [-f '%{file}\n']
+ * - fc-match
+ * - xlsfonts
+ *
+ *
+ * ### Fonts
+ *
+ * (broken)
+ *
+ * -*-fixed-*-*-*-*-12-*-*-*-*-*-*-*
+ * -*-terminus-medium-r-normal-*-14-*-*-*-*-*-*-*
+ * -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+ * -misc-fixed-medium-r-semicondensed--13-100-100-100-c-60-iso8859-1
+ * monospace:size=10
+ * profont
+ * terminus-12
+ * xft:ProFont:size=11
+ * xft:ProggyTinyTT:size=13
+ * NotoSerif
+ *
+ * (working)
+ *
+ * monospace:size=10    // boring default
+ * ProggyTinyTT:size=14 // wonky at larger sizes
+ * ProFont:size=13      // gets a bit ugly above 13
+ */
+
+#define FONT "ProFont:size=13"
+
 static const char *fonts[]         = { FONT };
 static const char dmenufont[]       = FONT;
 static const char normbordercolor[] =  "#2e3436";
