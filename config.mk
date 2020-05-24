@@ -36,3 +36,6 @@ LDFLAGS  = ${LIBS}
 
 # compiler and linker
 CC = cc
+
+CPPFLAGS += -fuse-cpp=/home/rob/code/ucc/tools/syscpp
+CC = ~/code/ucc/ucc
