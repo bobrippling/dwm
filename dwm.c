@@ -336,6 +336,24 @@ applyrules(Client *c)
 	if (ch.res_name)
 		XFree(ch.res_name);
 	c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
+
+	/* if iscentered && isfloating && only client visible, unfloat it */
+	if (c->iscentered && c->isfloating) {
+		int shared = 0;
+
+		for(Client *other = c->mon->clients; other; other = other->next){
+			if(other == c)
+				continue;
+			if(other->tags & c->tags){
+				shared = 1;
+				break;
+			}
+		}
+
+		if(!shared){
+			c->isfloating = 0;
+		}
+	}
 }
 
 int
