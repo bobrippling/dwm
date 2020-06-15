@@ -1,0 +1,41 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          xshd
+# Required-Start:
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: xshd autologin daemon
+# Description:       xshd autologin daemon
+### END INIT INFO
+
+piddir=/var/run/xshd
+pidfile="$piddir"/Xorg
+
+case "$1" in
+  start)
+		mkdir -p "$piddir"
+
+		export DISPLAY=:0
+
+		Xorg -nolisten tcp -noreset $DISPLAY &
+		echo "$!" >"$pidfile"
+
+		while ! xset q >/dev/null; do sleep 1; done
+
+		setsid \
+			su rob -c \
+			'sh ~rob/.xsession &'
+		;;
+  stop)
+		xargs kill < "$pidfile"
+		;;
+  restart)
+    $0 stop
+    $0 start
+		;;
+  *)
+    echo "Usage: $0 {start|stop|restart}" >&2
+    exit 2
+		;;
+esac
