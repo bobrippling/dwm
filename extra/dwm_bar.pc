@@ -9,6 +9,11 @@ bar(){
 	fi
 }
 
+xtest(){
+	xset q >/dev/null
+	return $?
+}
+
 if [ $# -ne 0 ]
 then
 	bar "$@"
@@ -16,7 +21,7 @@ then
 fi
 
 count=0
-while :
+while xtest
 do
 	{
 		vol list | grep '^\*' | sed 's/^..//; /Master/d; s/.*/[&]/'

@@ -43,9 +43,14 @@ END {
 	fi
 }
 
+xtest(){
+	xset q >/dev/null
+	return $?
+}
+
 last_batt=0
 
-while :
+while xtest
 do
 	mixer=`amixer -c 0 get Master | tail -1`
 	batt=`acpi | sed 's/.*[^0-9]\([0-9]\+\)%.*/\1/'`
