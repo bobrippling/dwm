@@ -36,7 +36,7 @@ static const int topbar             = 1;        /* 0 means bottom bar */
  * ProFont:size=13      // gets a bit ugly above 13
  */
 
-#define FONT "ProFont:size=13"
+#define FONT "ProFont:size=9"
 
 static const char *fonts[]         = { FONT };
 static const char dmenufont[]       = FONT;
@@ -67,12 +67,13 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     iscentered     isfloating   monitor */
-	{ "URxvt",       NULL,       NULL,       0,            1,             1,           -1 },
-	{ "xfreerdp",    NULL,       NULL,       0,            1,             1,           -1 },
+	/* class               instance    title       tags mask     iscentered     isfloating   monitor */
+	{ "URxvt",             NULL,       NULL,       0,            1,             1,           -1 },
+	{ "xfreerdp",          NULL,       NULL,       0,            1,             1,           -1 },
 
-	{ "Firefox-esr", NULL,       NULL,       1<<2,         1,             0,           -1 },
-	{ "Chromium",    NULL,       NULL,       1<<2,         1,             0,           -1 },
+	{ "Firefox-esr",       NULL,       NULL,       1<<2,         1,             0,           -1 },
+	{ "Chromium",          NULL,       NULL,       1<<2,         1,             0,           -1 },
+	{ "Brave-browser",     NULL,       NULL,       1<<2,         1,             0,           -1 },
 };
 
 /* layout(s) */
