@@ -1,7 +1,7 @@
 #!/bin/sh
 
 xtest(){
-	xterm -e true
+	xset q >/dev/null
 	return $?
 }
 
