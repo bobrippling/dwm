@@ -6,14 +6,14 @@ BEGIN {
 	cur_eth = ""
 }
 
-/^(eth|wlan)/ {
+/^(eth|wlan|lo)/ {
 	cur_eth = $1
 }
 
 /inet / {
 	if(length(cur_eth)){
 		line = substr($2, index($2, ":") + 1)
-		if(line != "127.0.0.1")
+		#if(line != "127.0.0.1")
 			eth[cur_eth] = line
 		cur_eth = ""
 	}
