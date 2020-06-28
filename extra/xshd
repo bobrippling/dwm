@@ -13,7 +13,7 @@ piddir=/var/run/xshd
 pidfile="$piddir"/Xorg
 
 case "$1" in
-  start)
+	start)
 		mkdir -p "$piddir"
 
 		export DISPLAY=:0
@@ -27,15 +27,15 @@ case "$1" in
 			su rob -c \
 			'sh ~rob/.xsession &'
 		;;
-  stop)
+	stop)
 		xargs kill < "$pidfile"
 		;;
-  restart)
-    $0 stop
-    $0 start
+	restart)
+		$0 stop
+		$0 start
 		;;
-  *)
-    echo "Usage: $0 {start|stop|restart}" >&2
-    exit 2
+	*)
+		echo "Usage: $0 {start|stop|restart}" >&2
+		exit 2
 		;;
 esac
