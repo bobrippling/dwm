@@ -36,12 +36,15 @@ case "$1" in
 		xargs kill < "$pidfile"
 		log_end_msg $?
 		;;
+	status)
+		status_of_proc -p $pidfile /dev/null xshd
+		;;
 	restart)
 		$0 stop
 		$0 start
 		;;
 	*)
-		echo "Usage: $0 {start|stop|restart}" >&2
+		echo "Usage: $0 {start|stop|restart|status}" >&2
 		exit 2
 		;;
 esac
