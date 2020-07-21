@@ -9,11 +9,14 @@
 # Description:       xshd autologin daemon
 ### END INIT INFO
 
+. /lib/lsb/init-functions
+
 piddir=/var/run/xshd
 pidfile="$piddir"/Xorg
 
 case "$1" in
 	start)
+		log_daemon_msg "Starting xshd" "xshd"
 		mkdir -p "$piddir"
 
 		export DISPLAY=:0
@@ -26,9 +29,12 @@ case "$1" in
 		setsid \
 			su rob -c \
 			'sh ~rob/.xsession &'
+		log_end_msg 0
 		;;
 	stop)
+		log_daemon_msg "Stopping xshd" "xshd"
 		xargs kill < "$pidfile"
+		log_end_msg $?
 		;;
 	restart)
 		$0 stop
