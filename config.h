@@ -4,7 +4,6 @@
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int transparentbar     = 0;        /* 1 means transparent bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 
 /* ### Programs
@@ -67,13 +66,13 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class               instance    title       tags mask     iscentered     isfloating   monitor */
-	{ "URxvt",             NULL,       NULL,       0,            1,             1,           -1 },
-	{ "xfreerdp",          NULL,       NULL,       0,            1,             1,           -1 },
+	/* class               instance    title       tags mask     iscentered     isfloating  ignore-bar  monitor */
+	{ "URxvt",             NULL,       NULL,       0,            1,             1,          0,          -1 },
+	{ "xfreerdp",          NULL,       NULL,       0,            1,             1,          1,          -1 },
 
-	{ "Firefox-esr",       NULL,       NULL,       1<<2,         1,             0,           -1 },
-	{ "Chromium",          NULL,       NULL,       1<<2,         1,             0,           -1 },
-	{ "Brave-browser",     NULL,       NULL,       1<<2,         1,             0,           -1 },
+	{ "Firefox-esr",       NULL,       NULL,       1<<2,         1,             0,          0,          -1 },
+	{ "Chromium",          NULL,       NULL,       1<<2,         1,             0,          0,          -1 },
+	{ "Brave-browser",     NULL,       NULL,       1<<2,         1,             0,          0,          -1 },
 };
 
 /* layout(s) */
@@ -159,7 +158,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_a,      moveresize,     {.v = (int [4]){ 0, 0, -MOVE_RESIZE_STEP, 0 }}},
 
 	{ MODKEY,                       XK_g,      togglebar,      {0} },
-	{ MODKEY|ShiftMask,             XK_g,      togglebartrans, {0} },
+	{ MODKEY|ShiftMask,             XK_g,      toggleignorebar, {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_y,      incnmaster,     {.i = +1 } },

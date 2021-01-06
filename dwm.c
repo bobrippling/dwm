@@ -92,7 +92,7 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, iscentered, isfloating, isalwaysontop, isurgent, neverfocus, oldstate, isfullscreen;
+	int isfixed, iscentered, isfloating, isalwaysontop, isurgent, neverfocus, oldstate, isfullscreen, ignorebar;
 	Client *next;
 	Client *snext;
 	Monitor *mon;
@@ -125,7 +125,6 @@ struct Monitor {
 	unsigned int tagset[2];
 	int showbar;
 	int topbar;
-	int transparentbar;
 	Client *clients;
 	Client *sel;
 	Client *stack;
@@ -142,6 +141,7 @@ typedef struct {
 	unsigned int tags;
 	int iscentered;
 	int isfloating;
+	int ignorebar;
 	int monitor;
 } Rule;
 
@@ -218,7 +218,7 @@ static void grid(Monitor *);
 static void col(Monitor *);
 static void bstack(Monitor *);
 static void togglebar(const Arg *arg);
-static void togglebartrans(const Arg *arg);
+static void toggleignorebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void togglealwaysontop(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -291,7 +291,6 @@ struct Pertag {
 	unsigned int sellts[LENGTH(tags) + 1]; /* selected layouts */
 	const Layout *ltidxs[LENGTH(tags) + 1][2]; /* matrix of tags and layouts indexes  */
 	int showbars[LENGTH(tags) + 1]; /* display bar for the current tag */
-	int transparentbars[LENGTH(tags) + 1]; /* transparent bar for the current tag */
 };
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
@@ -327,6 +326,7 @@ applyrules(Client *c)
 		{
 			c->iscentered = r->iscentered;
 			c->isfloating = r->isfloating;
+			c->ignorebar = r->ignorebar;
 			c->tags |= r->tags;
 			for (m = mons; m && m->num != r->monitor; m = m->next);
 			if (m)
@@ -689,7 +689,6 @@ createmon(void)
 	m->mfact = mfact;
 	m->nmaster = nmaster;
 	m->showbar = showbar;
-	m->transparentbar = transparentbar;
 	m->topbar = topbar;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
@@ -706,7 +705,6 @@ createmon(void)
 		m->pertag->sellts[i] = m->sellt;
 
 		m->pertag->showbars[i] = m->showbar;
-		m->pertag->transparentbars[i] = m->transparentbar;
 	}
 
 	return m;
@@ -1244,14 +1242,16 @@ movemouse(const Arg *arg)
 				continue;
 			lasttime = ev.xmotion.time;
 
+			int topy = selmon->wy - (c->ignorebar ? bh : 0);
+
 			nx = ocx + (ev.xmotion.x - x);
 			ny = ocy + (ev.xmotion.y - y);
 			if (abs(selmon->wx - nx) < snap)
 				nx = selmon->wx;
 			else if (abs((selmon->wx + selmon->ww) - (nx + WIDTH(c))) < snap)
 				nx = selmon->wx + selmon->ww - WIDTH(c);
-			if (abs(selmon->wy - ny) < snap)
-				ny = selmon->wy;
+			if (abs(topy - ny) < snap)
+				ny = topy;
 			else if (abs((selmon->wy + selmon->wh) - (ny + HEIGHT(c))) < snap)
 				ny = selmon->wy + selmon->wh - HEIGHT(c);
 			if (!c->isfloating && selmon->lt[selmon->sellt]->arrange
@@ -1797,10 +1797,11 @@ togglebar(const Arg *arg)
 }
 
 void
-togglebartrans(const Arg *arg)
+toggleignorebar(const Arg *arg)
 {
-	selmon->transparentbar = selmon->pertag->transparentbars[selmon->pertag->curtag] = !selmon->transparentbar;
-	updatebarpos(selmon);
+	if(!selmon->sel)
+		return;
+	selmon->sel->ignorebar ^= 1;
 	arrange(selmon);
 }
 
@@ -1870,9 +1871,6 @@ pertag_to_selmon(void)
 
 	if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
 		togglebar(NULL);
-
-	if (selmon->transparentbar != selmon->pertag->transparentbars[selmon->pertag->curtag])
-		togglebartrans(NULL);
 }
 
 void
@@ -1984,13 +1982,9 @@ updatebarpos(Monitor *m)
 	m->wy = m->my;
 	m->wh = m->mh;
 	if (m->showbar) {
-		if (m->transparentbar) {
-			m->by = m->topbar ? m->wy : m->wy + m->wh;
-		} else {
-			m->wh -= bh;
-			m->by = m->topbar ? m->wy : m->wy + m->wh;
-			m->wy = m->topbar ? m->wy + bh : m->wy;
-		}
+		m->wh -= bh;
+		m->by = m->topbar ? m->wy : m->wy + m->wh;
+		m->wy = m->topbar ? m->wy + bh : m->wy;
 	} else
 		m->by = -bh;
 }
