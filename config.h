@@ -69,6 +69,9 @@ static const Rule rules[] = {
 	/* class               instance    title       tags mask     iscentered     isfloating  ignore-bar  monitor */
 	{ "URxvt",             NULL,       NULL,       0,            1,             1,          0,          -1 },
 	{ "xfreerdp",          NULL,       NULL,       0,            1,             1,          1,          -1 },
+	{ "Pavucontrol",       NULL,       NULL,       0,            1,             1,          0,          -1 },
+
+	{ "thunderbird",       NULL,       NULL,       1<<0,         1,             0,          0,          -1 },
 
 	{ "Firefox-esr",       NULL,       NULL,       1<<2,         1,             0,          0,          -1 },
 	{ "Chromium",          NULL,       NULL,       1<<2,         1,             0,          0,          -1 },
@@ -120,7 +123,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run_quick", "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, "-f", NULL };
-static const char *termcmd[]  = { "urxvt", NULL };
+static const char *termcmd[]  = { "urxvt", "-geometry", "200x50", NULL };
 static const char *termcmd2[] = { "st", NULL };
 
 #include <X11/XF86keysym.h> /* for XF86* keys */
