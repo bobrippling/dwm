@@ -197,8 +197,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 
 	/* need to sleep for the latter so scrot can grab the keyboard */
-	{ 0,                            XK_Print,  spawnq,         {.v = (char *[]){ "scrot",       "%Y-%m-%d_%H:%M:%S.png", NULL } } },
-	{ ShiftMask,                    XK_Print,  spawn ,         {.v = (char *[]){ "sh", "-c", "sleep 1; scrot -s %Y-%m-%d_%H:%M:%S.png", NULL } } },
+	{ 0,                            XK_Print,  spawnq,         {.v = (char *[]){ "xscreencap", "fullscreen", NULL } } },
+	{ ShiftMask,                    XK_Print,  spawnq,         {.v = (char *[]){ "xscreencap", "draw", NULL } } },
 };
 
 /* button definitions */
