@@ -142,11 +142,13 @@ typedef struct {
 	int iscentered;
 	int isfloating;
 	int ignorebar;
+	int onlyfirst;
 	int monitor;
 } Rule;
 
 /* function declarations */
 static void applyrules(Client *c);
+static int clientmatchesrule(const Rule *r);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
 static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
@@ -324,6 +326,11 @@ applyrules(Client *c)
 		&& (!r->class || strstr(class, r->class))
 		&& (!r->instance || strstr(instance, r->instance)))
 		{
+			if (r->onlyfirst && clientmatchesrule(r)) {
+				/* if we have another of this class (on this monitor), then don't apply this rule to this client */
+				continue;
+			}
+
 			c->iscentered = r->iscentered;
 			c->isfloating = r->isfloating;
 			c->ignorebar = r->ignorebar;
@@ -356,6 +363,25 @@ applyrules(Client *c)
 			c->isfloating = 0;
 		}
 	}
+}
+
+int
+clientmatchesrule(const Rule *r) {
+	for (Client *c = selmon->clients; c; c = c->next) {
+		XClassHint ch = { NULL, NULL };
+		XGetClassHint(dpy, c->win, &ch);
+
+		const char *class    = ch.res_class ? ch.res_class : broken;
+		const char *instance = ch.res_name  ? ch.res_name  : broken;
+
+		if ((!r->title || strstr(c->name, r->title))
+		&& (!r->class || strstr(class, r->class))
+		&& (!r->instance || strstr(instance, r->instance)))
+		{
+			return 1;
+		}
+	}
+	return 0;
 }
 
 int

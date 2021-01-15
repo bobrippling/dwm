@@ -66,16 +66,17 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class               instance    title       tags mask     iscentered     isfloating  ignore-bar  monitor */
-	{ "URxvt",             NULL,       NULL,       0,            1,             1,          0,          -1 },
-	{ "xfreerdp",          NULL,       NULL,       0,            1,             1,          1,          -1 },
-	{ "Pavucontrol",       NULL,       NULL,       0,            1,             1,          0,          -1 },
+	/* class               instance    title       tags mask     iscentered     isfloating  ignore-bar  only-first  monitor */
+	{ "URxvt",             NULL,       NULL,       0,            1,             1,          0,          0,          -1 },
+	{ "URxvt",             NULL,  "urxvt-drawn",   0,            0,             1,          0,          0,          -1 },
+	{ "xfreerdp",          NULL,       NULL,       0,            1,             1,          1,          0,          -1 },
+	{ "Pavucontrol",       NULL,       NULL,       0,            1,             1,          0,          0,          -1 },
 
-	{ "thunderbird",       NULL,       NULL,       1<<0,         1,             0,          0,          -1 },
+	{ "thunderbird",       NULL,       NULL,       1<<0,         1,             0,          0,          0,          -1 },
 
-	{ "Firefox-esr",       NULL,       NULL,       1<<2,         1,             0,          0,          -1 },
-	{ "Chromium",          NULL,       NULL,       1<<2,         1,             0,          0,          -1 },
-	{ "Brave-browser",     NULL,       NULL,       1<<2,         1,             0,          0,          -1 },
+	{ "Firefox-esr",       NULL,       NULL,       1<<2,         1,             0,          0,          1,          -1 },
+	{ "Chromium",          NULL,       NULL,       1<<2,         1,             0,          0,          1,          -1 },
+	{ "Brave-browser",     NULL,       NULL,       1<<6,         1,             0,          0,          1,          -1 },
 };
 
 /* layout(s) */
