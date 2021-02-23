@@ -470,6 +470,16 @@ arrangemon(Monitor *m)
 	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
 	if (m->lt[m->sellt]->arrange)
 		m->lt[m->sellt]->arrange(m);
+	else{
+		unsigned int n = 0;
+		Client *c;
+		for (c = m->clients; c; c = c->next)
+			if (ISVISIBLE(c))
+				n++;
+
+		if(n > 0)
+			snprintf(m->ltsymbol, sizeof m->ltsymbol, "#%d#", n);
+	}
 }
 
 void
