@@ -1,0 +1,16 @@
+#!/bin/sh
+
+found=1
+case "$1" in
+	8)
+		exec vol next-output
+		;;
+
+	*)
+		found=0
+		;;
+esac #>& /dev/null
+
+if test $found -eq 0
+then echo "fn_handler: unknown key: $1" >&2
+fi

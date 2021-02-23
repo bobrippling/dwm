@@ -115,6 +115,8 @@ static const Layout layouts[] = {
 
 #define XF86_KEY(k, cmd) \
 	{ 0,   k,    cmd,   {.v = (char *[]){ "dwm_xf86_handler", #k, NULL } } }
+#define FUNCTION_KEY(k) \
+	{ MODKEY, XK_F ## k, spawnq, {.v = (char *[]){ "dwm_fn_handler", #k, NULL } } }
 
 #define MOVE_RESIZE_STEP 25
 
@@ -129,15 +131,9 @@ static const char *termcmd2[] = { "st", NULL };
 
 #include <X11/XF86keysym.h> /* for XF86* keys */
 static Key keys[] = {
-	XF86_KEY(XF86XK_Sleep,             spawn),
-	XF86_KEY(XF86XK_Launch1,           spawn),
-	XF86_KEY(XF86XK_Launch2,           spawn),
-	XF86_KEY(XF86XK_Launch3,           spawn),
+	/* xf86 keys we need a fast response for */
 	XF86_KEY(XF86XK_MonBrightnessUp,   spawn),
 	XF86_KEY(XF86XK_MonBrightnessDown, spawn),
-	XF86_KEY(XF86XK_Display,           spawn),
-	XF86_KEY(XF86XK_Battery,           spawn),
-	XF86_KEY(XF86XK_WLAN,              spawn),
 	XF86_KEY(XF86XK_AudioNext,         spawn),
 	XF86_KEY(XF86XK_AudioPrev,         spawn),
 	XF86_KEY(XF86XK_AudioPlay,         spawn),
@@ -202,6 +198,41 @@ static Key keys[] = {
 	/* need to sleep for the latter so scrot can grab the keyboard */
 	{ 0,                            XK_Print,  spawnq,         {.v = (char *[]){ "xscreencap", "fullscreen", NULL } } },
 	{ ShiftMask,                    XK_Print,  spawnq,         {.v = (char *[]){ "xscreencap", "draw", NULL } } },
+
+	FUNCTION_KEY(1),
+	FUNCTION_KEY(2),
+	FUNCTION_KEY(3),
+	FUNCTION_KEY(4),
+	FUNCTION_KEY(5),
+	FUNCTION_KEY(6),
+	FUNCTION_KEY(7),
+	FUNCTION_KEY(8),
+	FUNCTION_KEY(9),
+	FUNCTION_KEY(10),
+	FUNCTION_KEY(11),
+	FUNCTION_KEY(12),
+
+	/* xf86 keys we don't need a fast response for */
+	XF86_KEY(XF86XK_Sleep,             spawn),
+	XF86_KEY(XF86XK_Launch1,           spawn),
+	XF86_KEY(XF86XK_Launch2,           spawn),
+	XF86_KEY(XF86XK_Launch3,           spawn),
+	XF86_KEY(XF86XK_Display,           spawn),
+	XF86_KEY(XF86XK_Battery,           spawn),
+	XF86_KEY(XF86XK_WLAN,              spawn),
+	/*
+	XF86_KEY(XF86AudioRecord,          spawn),
+	XF86_KEY(XF86AudioRewind,          spawn),
+	XF86_KEY(XF86Close,                spawn),
+	XF86_KEY(XF86HomePage,             spawn),
+	XF86_KEY(XF86Launch5,              spawn),
+	XF86_KEY(XF86New,                  spawn),
+	XF86_KEY(XF86Phone,                spawn),
+	XF86_KEY(XF86Reload,               spawn),
+	XF86_KEY(XF86ScrollDown,           spawn),
+	XF86_KEY(XF86ScrollUp,             spawn),
+	XF86_KEY(XF86Tools,                spawn),
+	*/
 };
 
 /* button definitions */
