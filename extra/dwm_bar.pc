@@ -34,6 +34,7 @@ while xtest
 do
 	{
 		show_n tmux tmux ls
+		show_n ssh "ssh-add -l | sed '/no identities/d'"
 
 		vol list | grep '^\*' | sed 's/^..//; /Master/d; s/.*/[&]/'
 
