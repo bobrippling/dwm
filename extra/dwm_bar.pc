@@ -14,6 +14,15 @@ xtest(){
 	return $?
 }
 
+show_n(){
+	desc="$1"
+	shift
+	nents=$(eval "$@" 2>/dev/null | wc -l)
+	if test $nents -gt 0
+	then echo "[${nents}$desc]"
+	fi
+}
+
 if [ $# -ne 0 ]
 then
 	bar "$@"
@@ -24,12 +33,9 @@ count=0
 while xtest
 do
 	{
-		ntmux=$(tmux ls 2>/dev/null | wc -l)
-		if test $ntmux -gt 0
-		then
-			echo "[${ntmux}tmux]"
-			vol list | grep '^\*' | sed 's/^..//; /Master/d; s/.*/[&]/'
-		fi
+		show_n tmux tmux ls
+
+		vol list | grep '^\*' | sed 's/^..//; /Master/d; s/.*/[&]/'
 
 		echo "[`cut -f1-3 -d' ' /proc/loadavg`]"
 		echo "[`date '+%a %b %Y/%m/%d %T'`]"
