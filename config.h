@@ -69,6 +69,7 @@ static const Rule rules[] = {
 	/* class               instance    title       tags mask     iscentered     isfloating  ignore-bar  only-first  monitor */
 	{ "URxvt",             NULL,       NULL,       0,            1,             1,          0,          0,          -1 },
 	{ "URxvt",             NULL,  "urxvt-drawn",   0,            0,             1,          0,          0,          -1 },
+	{ "st-256color",       NULL,       NULL,       0,            1,             1,          0,          0,          -1 },
 	{ "xfreerdp",          NULL,       NULL,       0,            1,             1,          1,          0,          -1 },
 	{ "Pavucontrol",       NULL,       NULL,       0,            1,             1,          0,          0,          -1 },
 
