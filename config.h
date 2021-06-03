@@ -73,11 +73,11 @@ static const Rule rules[] = {
 	{ "xfreerdp",          NULL,       NULL,       0,            1,             1,          1,          0,          -1 },
 	{ "Pavucontrol",       NULL,       NULL,       0,            1,             1,          0,          0,          -1 },
 
-	{ "thunderbird",       NULL,       NULL,       1<<0,         1,             0,          0,          0,          -1 },
+	{ "thunderbird",       NULL,       NULL,       1<<0,         1,             0,          0,          1,          -1 },
 
 	{ "Firefox-esr",       NULL,       NULL,       1<<2,         1,             0,          0,          1,          -1 },
 	{ "Chromium",          NULL,       NULL,       1<<2,         1,             0,          0,          1,          -1 },
-	{ "Brave-browser",     NULL,       NULL,       1<<6,         1,             0,          0,          1,          -1 },
+	{ "Brave-browser",     NULL,       NULL,       1<<5,         1,             0,          0,          1,          -1 },
 };
 
 /* layout(s) */
