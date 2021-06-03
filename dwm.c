@@ -282,6 +282,7 @@ static Window root, wmcheckwin;
 
 #include "patches/spawnq.c"
 #include "patches/moveresize.c"
+#include "patches/fibonacci.c"
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"

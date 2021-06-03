@@ -94,6 +94,8 @@ enum
 	LAYOUT_I_col,
 	LAYOUT_I_float,
 	LAYOUT_I_grid,
+	LAYOUT_I_sprial,
+	LAYOUT_I_dwindle,
 };
 
 static const Layout layouts[] = {
@@ -104,6 +106,8 @@ static const Layout layouts[] = {
 	[LAYOUT_I_grid   ] = { "HHH",   grid    },
 	[LAYOUT_I_bstack ] = { "-|-",   bstack  },
 	[LAYOUT_I_col    ] = { "||=",   col     },
+	[LAYOUT_I_sprial ] = { "[@]",   spiral },
+	[LAYOUT_I_dwindle] = { "[\\]",  dwindle },
 };
 
 /* key definitions */
@@ -176,6 +180,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[LAYOUT_I_float]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[LAYOUT_I_monocle]} },
 	{ MODKEY,                       XK_e,      setlayout,      {.v = &layouts[LAYOUT_I_grid]} },
+	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[LAYOUT_I_sprial]} },
+	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[LAYOUT_I_dwindle]} },
 
 	{ MODKEY,                       XK_space,  togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglealwaysontop, {0} },
