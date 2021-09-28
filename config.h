@@ -136,6 +136,7 @@ static const char *termcmd2[] = { "st", NULL };
 static const char *clipmenucmd[] = { "clipmenu", NULL };
 
 #include <X11/XF86keysym.h> /* for XF86* keys */
+/* keys left: [rhxz], shift+[cefijkmnoptuvxyz] */
 static Key keys[] = {
 	/* xf86 keys we need a fast response for */
 	XF86_KEY(XF86XK_MonBrightnessUp,   spawn),
