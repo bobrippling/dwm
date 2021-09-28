@@ -182,8 +182,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[LAYOUT_I_float]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[LAYOUT_I_monocle]} },
 	{ MODKEY,                       XK_e,      setlayout,      {.v = &layouts[LAYOUT_I_grid]} },
-	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[LAYOUT_I_sprial]} },
-	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[LAYOUT_I_dwindle]} },
+	{ MODKEY|ShiftMask,             XK_l,      setlayout,      {.v = &layouts[LAYOUT_I_sprial]} },
+	{ MODKEY,                       XK_l,      setlayout,      {.v = &layouts[LAYOUT_I_dwindle]} },
 
 	{ MODKEY,                       XK_space,  togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglealwaysontop, {0} },
