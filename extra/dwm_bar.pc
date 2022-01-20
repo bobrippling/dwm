@@ -9,11 +9,6 @@ bar(){
 	fi
 }
 
-xtest(){
-	xset q >/dev/null
-	return $?
-}
-
 show_n(){
 	desc="$1"
 	shift

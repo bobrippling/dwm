@@ -43,11 +43,6 @@ END {
 	fi
 }
 
-xtest(){
-	xset q >/dev/null
-	return $?
-}
-
 netusage(){
 	ss -tn | sed 1d | wc -l | tr -d ' 	'
 }

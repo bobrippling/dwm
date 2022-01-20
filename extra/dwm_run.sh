@@ -1,10 +1,5 @@
 #!/bin/sh
 
-xtest(){
-	xset q >/dev/null
-	return $?
-}
-
 dwmpath=$HOME/src/Suckless/dwm/extra/ #"$(dirname "$(readlink $0)")"
 echo "$0: dwmpath: $dwmpath" >&2
 
