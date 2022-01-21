@@ -1477,7 +1477,6 @@ restack(Monitor *m)
 		for(c = m_search->clients; c; c = c->next){
 			if(c->isalwaysontop){
 				XRaiseWindow(dpy, c->win);
-				break;
 			}
 		}
 	}
@@ -1869,11 +1868,6 @@ togglealwaysontop(const Arg *arg)
 	if(selmon->sel->isalwaysontop){
 		selmon->sel->isalwaysontop = 0;
 	}else{
-		/* disable others */
-		for(Monitor *m = mons; m; m = m->next)
-			for(Client *c = m->clients; c; c = c->next)
-				c->isalwaysontop = 0;
-
 		/* turn on, make it float too */
 		selmon->sel->isfloating = 1;
 		selmon->sel->isalwaysontop = 1;
